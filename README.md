@@ -28,7 +28,7 @@ CppTypingGame/
 g++ が入っている環境で以下を実行します：
 
 ```bash
-make
+mingw32-make
 ```
 
 `typing_game` という実行ファイルができます。
@@ -36,7 +36,7 @@ make
 掃除したいときは：
 
 ```bash
-make clean
+mingw32-make clean
 ```
 
 ---
