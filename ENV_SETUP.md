@@ -60,10 +60,11 @@ g++ src/main.cpp -o typing_game -Wall -O2
 ```
 
 ### Makefile 使用
+⚠ Windows環境では `make` ではなく `mingw32-make` を使用してください。
 
 ```bash
-make clean
-make
+mingw32-make clean
+mingw32-make
 ./typing_game
 ```
 
