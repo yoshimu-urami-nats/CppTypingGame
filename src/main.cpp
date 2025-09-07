@@ -70,9 +70,6 @@ int main() {
     //リザルト表示
     std::cout << "\nゲーム終了! 正解数：" << correctCount << " / " << maxQuestions << std::endl;
 
-    // …結果表示のあとに追加
-    std::cout << "\nゲーム終了! 正解数：" << correctCount << " / " << maxQuestions << std::endl;
-
     std::cout << "\nEnterで終了...";
     std::string dummy;
     std::getline(std::cin, dummy);  // Enter待ち
