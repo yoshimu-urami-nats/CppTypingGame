@@ -7,6 +7,11 @@ SRC = src/main.cpp
 DIST   = dist/typing_game_win64
 
 # ビルドルール
+VER ?= $(shell git describe --tags --always --dirty --abbrev=7 2>/dev/null)
+ZIP  = dist/typing_game_win64_$(VER).zip
+
+.PHONY: all release release-zip clean
+
 all:
 	g++ $(SRC) -o $(TARGET) -Wall -O2 
 
@@ -19,6 +24,10 @@ release: all
 	cp "$(shell which libwinpthread-1.dll)" $(DIST)/
 	cp README_DIST.txt $(DIST)/README.txt
 	@echo "Packed -> $(DIST)"
+
+release-zip: release
+	powershell -NoProfile -Command "Compress-Archive -Path '$(DIST)\*' -DestinationPath '$(ZIP)' -Force"
+	@echo "ZIP -> $(ZIP)"
 
 # クリーン（削除）ルール
 clean:

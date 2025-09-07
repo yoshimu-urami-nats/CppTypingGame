@@ -28,7 +28,8 @@ CppTypingGame/
 g++ が入っている環境で以下を実行します：
 
 ```bash
-mingw32-make
+mingw32-make release       # 配布フォルダ作成
+mingw32-make release-zip   # さらにZIP化（dist/typing_game_win64_v0.1.0.zip）
 ```
 
 `typing_game` という実行ファイルができます。

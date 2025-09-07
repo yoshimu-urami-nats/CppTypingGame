@@ -39,3 +39,11 @@
 
 # debug information files
 *.dwo
+
+
+/dist/           # 配布物フォルダ（ルート直下だけ）
+/*.zip           # ルートに作るZIP
+/typing_game     # 拡張子なしの実行物（MSYS系）
+/typing_game.exe # .exe の実行物
+/*.dll           # ルートにDLLを置いちゃった時の保険（dist/配下はすでに無視）
+*.o              # もし将来オブジェクトを出すようにしたら
