@@ -1,24 +1,27 @@
-#include <windows.h>
-#include <iostream>
-#include <locale>
-#include <vector>
-#include <random>
-#include <ctime>
-#include <string>
-#include <algorithm>
+#include <windows.h>  // コンソールのコードページ変更(API)
+#include <iostream>   // 入出力
+#include <locale>     // setlocale
+#include <vector>     // 単語リスト
+#include <random>     // 乱数
+#include <ctime>      // 時刻シード
+#include <string>     // 文字列
+#include <algorithm>  // shuffle
 
+//日本語を見せつつ、入力はローマ字で判定するために Word 構造体で表示と答えを分離
 struct Word {
-    std::string display; // 表示用（日本語）
-    std::string answer;  // 判定用（ローマ字）
+    std::string display; // 画面に見せる日本語
+    std::string answer;  // プレイヤーに打ってほしいローマ字
 };
 
 int main() {
-    // Windows UTF-8対応（文字化け対策）
+    //これで Windows のコンソールが UTF-8 で入出力する
+    //以前の不正文字化けの主因をここで解消
     setlocale(LC_ALL, "");
-    SetConsoleCP(CP_UTF8);         // 入力側もUTF-8に！
-    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);        // 入力もUTF-8
+    SetConsoleOutputCP(CP_UTF8);  // 出力をUTF-8
 
-    // 辞書（日本語表示 + ローマ字判定）
+    // 出題リスト（日本語表示＋ローマ字判定）
+    //ここを増やせば題材が増える。表示は日本語、判定はローマ字。
     std::vector<Word> wordList = {
         {"ぷーちく", "pu-tiku"},
         {"チュッチュカ", "tyuttyuka"},
@@ -28,7 +31,8 @@ int main() {
         {"りんご", "ringo"}
     };
 
-    // 乱数初期化
+    // 乱数の準備とシャッフル
+    //mt19937 は高品質な擬似乱数エンジン。時刻で初期化。
     std::mt19937 rng(static_cast<unsigned int>(time(nullptr)));
     std::uniform_int_distribution<int> dist(0, wordList.size() - 1);
 
@@ -37,12 +41,15 @@ int main() {
 
     std::cout << "ようこそ タイピングゲームへ！\n";
 
-    std::cin.sync();    // バッファの同期
-    std::cin.ignore(); // 改行クリア（重要）
+    std::cin.sync();   // 入力バッファの同期
+    std::cin.ignore(); // 直前に残ってる1文字(改行)を捨てる
 
-    // シャッフルを追加！
+    // 出題前にリストを並べ替え。重複なしでランダム順にするため、以降は wordList[i] を順に出すだけでOK
     std::shuffle(wordList.begin(), wordList.end(), rng);
 
+    //出題ループ
+    //wordList[i] はシャッフル済みなので重複なし
+    //getline を使うことでスペースや全角を含む入力にも対応（今回はローマ字なので主に安全策）
     for (int i = 0; i < maxQuestions; ++i) {
         const Word& target = wordList[i];
         std::cout << "\nお題 " << (i + 1) << "： " << target.display << std::endl;
@@ -60,7 +67,7 @@ int main() {
         }
     }
 
-
+    //リザルト表示
     std::cout << "\nゲーム終了! 正解数：" << correctCount << " / " << maxQuestions << std::endl;
 
     return 0;
