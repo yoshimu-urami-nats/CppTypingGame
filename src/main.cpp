@@ -39,6 +39,13 @@ int main() {
     int correctCount = 0;
     const int maxQuestions = 5;
 
+    // 擬似カウンター：実行するたびに違う数字にする
+    int fakeVisitorCount = 10000 + (rng() % 90000); // 10000〜99999のランダムな数
+
+    std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n";
+    std::cout << "　 あなたは " << fakeVisitorCount << "人目のお客様です！\n";
+    std::cout << "━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n";
+
     std::cout << "ようこそ タイピングゲームへ！\n";
 
     std::cin.sync();   // 入力バッファの同期
